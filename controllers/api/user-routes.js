@@ -79,15 +79,15 @@ router.post('/login', (req, res) => {
     })
         .then(dbUserData => {
             if (!dbUserData) {
-                res.status(400).json({ message: 'There is no user with that email address.' });
+                res.status(400).json({ message: 'No user with that email address.' });
                 return;
             }
 
-            // Verify user by checking password
+            // verify user
             const validPassword = dbUserData.checkPassword(req.body.password);
 
             if (!validPassword) {
-                res.status(400).json({ message: 'User password is incorrect.' });
+                res.status(400).json({ message: 'Incorrect password' });
                 return;
             }
 
@@ -97,7 +97,7 @@ router.post('/login', (req, res) => {
                 req.session.username = dbUserData.username;
                 req.session.loggedIn = true;
 
-                res.json({ user: dbUserData, message: 'You are now logged in!' })
+                res.json({ user: dbUserData, message: 'You are now logged in.' })
             });
         });
 });
